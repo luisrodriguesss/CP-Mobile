@@ -44,6 +44,18 @@ class _TelaLotacaoState extends State<TelaLotacao> {
     });
   }
 
+  Color get corSituacao {
+    if (academia.estaLotado) {
+      return Colors.red;
+    }
+
+    if (academia.quaseLotado) {
+      return Colors.orange;
+    }
+
+    return Colors.green;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +64,10 @@ class _TelaLotacaoState extends State<TelaLotacao> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: const Text('Gym Capacity'),
+        title: const Text(
+          'Gym Capacity',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
 
@@ -63,6 +78,18 @@ class _TelaLotacaoState extends State<TelaLotacao> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.asset(
+                'assets/images/academia.jpg',
+                width: 300,
+                height: 180,
+                fit: BoxFit.cover,
+              ),
+            ),
+
+            const SizedBox(height: 25),
+
             Text(
               academia.nome,
               style: const TextStyle(
@@ -72,7 +99,7 @@ class _TelaLotacaoState extends State<TelaLotacao> {
               ),
             ),
 
-            const SizedBox(height: 30),
+            const SizedBox(height: 25),
 
             const Text(
               'Pessoas na academia',
@@ -90,24 +117,33 @@ class _TelaLotacaoState extends State<TelaLotacao> {
               ),
             ),
 
+            const SizedBox(height: 5),
+
             Text(
               'Capacidade máxima: ${academia.capacidadeMaxima}',
               style: const TextStyle(color: Colors.white70, fontSize: 16),
             ),
 
-            const SizedBox(height: 30),
+            const SizedBox(height: 25),
 
-            Text(
-              academia.situacao,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              decoration: BoxDecoration(
+                color: corSituacao,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Text(
+                academia.situacao,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: 35),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -122,7 +158,10 @@ class _TelaLotacaoState extends State<TelaLotacao> {
                       vertical: 15,
                     ),
                   ),
-                  child: const Text('SAIU'),
+                  child: const Text(
+                    'SAIU',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
 
                 const SizedBox(width: 20),
@@ -137,7 +176,10 @@ class _TelaLotacaoState extends State<TelaLotacao> {
                       vertical: 15,
                     ),
                   ),
-                  child: const Text('ENTROU'),
+                  child: const Text(
+                    'ENTROU',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),

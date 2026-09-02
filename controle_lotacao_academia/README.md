@@ -1,17 +1,23 @@
-# controle_lotacao_academia
+# Controle de Lotação - Academia
 
-A new Flutter project.
+Projeto desenvolvido para a disciplina de Mobile Application Development.
 
-## Getting Started
+## Integrantes
+- Luis Fillipe Seripieri
+- Paulo Kian
 
-This project is a starting point for a Flutter application.
+## Descrição
+Aplicativo Flutter para controle de lotação de uma academia.
 
-A few resources to get you started if this is your first Flutter project:
+O sistema permite registrar a entrada e saída de pessoas, respeitando a capacidade máxima do ambiente e exibindo mensagens de situação conforme a ocupação.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Funcionalidades
+- Capacidade máxima de 50 pessoas
+- Controle de entrada
+- Controle de saída
+- Bloqueio acima da capacidade máxima
+- Bloqueio abaixo de zero
+- Mensagem de ambiente disponível
+- Mensagem de ambiente quase cheio
+- Mensagem de ambiente lotado
+- Imagem personalizada da academia
