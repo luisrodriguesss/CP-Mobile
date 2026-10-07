@@ -21,7 +21,6 @@ class PessoaItem extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Essa pessoa já saiu do ambiente.')),
       );
-
       return;
     }
 
@@ -96,91 +95,144 @@ class PessoaItem extends StatelessWidget {
       key: ValueKey(
         '${pessoa.identificacao}-${pessoa.dataEntrada.millisecondsSinceEpoch}',
       ),
-
       endActionPane: ActionPane(
-        motion: const DrawerMotion(),
+        motion: const ScrollMotion(),
         extentRatio: 0.55,
         children: [
-          SlidableAction(
+          CustomSlidableAction(
             onPressed: (_) {
               confirmarSaida(context);
             },
             backgroundColor: const Color(0xFF2E7D32),
             foregroundColor: Colors.white,
-            icon: Icons.logout,
-            label: 'SAÍDA',
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.logout),
+                SizedBox(height: 4),
+                Text('SAÍDA'),
+              ],
+            ),
           ),
-
-          SlidableAction(
+          CustomSlidableAction(
             onPressed: (_) {
               confirmarExclusao(context);
             },
             backgroundColor: const Color(0xFFC62828),
             foregroundColor: Colors.white,
-            icon: Icons.delete,
-            label: 'EXCLUIR',
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.delete),
+                SizedBox(height: 4),
+                Text('EXCLUIR'),
+              ],
+            ),
           ),
         ],
       ),
-
-      child: Card(
+      child: Container(
         margin: const EdgeInsets.only(bottom: 12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const Icon(Icons.person, size: 28),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFF171717),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFF2A2A2A)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 42,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE53935).withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(Icons.person, color: Color(0xFFE53935)),
+                ),
 
-                  const SizedBox(width: 10),
+                const SizedBox(width: 12),
 
-                  Expanded(
-                    child: Text(
-                      pessoa.nome,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                Expanded(
+                  child: Text(
+                    pessoa.nome,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
+                ),
 
-                  Icon(
-                    pessoa.estaNoAmbiente
-                        ? Icons.check_circle
-                        : Icons.exit_to_app,
-                    color: pessoa.estaNoAmbiente ? Colors.green : Colors.grey,
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: pessoa.estaNoAmbiente
+                        ? const Color(0xFF1B5E20)
+                        : const Color(0xFF424242),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    pessoa.estaNoAmbiente ? 'No ambiente' : 'Saiu',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 14),
+
+            Row(
+              children: [
+                const Icon(
+                  Icons.badge_outlined,
+                  size: 18,
+                  color: Color(0xFF9E9E9E),
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  'ID: ${pessoa.identificacao}',
+                  style: const TextStyle(color: Color(0xFFBDBDBD)),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 6),
+
+            Row(
+              children: [
+                const Icon(Icons.login, size: 18, color: Color(0xFF9E9E9E)),
+                const SizedBox(width: 6),
+                Text(
+                  'Entrada: ${formatoData.format(pessoa.dataEntrada)}',
+                  style: const TextStyle(color: Color(0xFFBDBDBD)),
+                ),
+              ],
+            ),
+
+            if (pessoa.dataSaida != null) ...[
+              const SizedBox(height: 6),
+              Row(
+                children: [
+                  const Icon(Icons.logout, size: 18, color: Color(0xFF9E9E9E)),
+                  const SizedBox(width: 6),
+                  Text(
+                    'Saída: ${formatoData.format(pessoa.dataSaida!)}',
+                    style: const TextStyle(color: Color(0xFFBDBDBD)),
                   ),
                 ],
               ),
-
-              const SizedBox(height: 10),
-
-              Text('ID: ${pessoa.identificacao}'),
-
-              const SizedBox(height: 4),
-
-              Text('Entrada: ${formatoData.format(pessoa.dataEntrada)}'),
-
-              if (pessoa.dataSaida != null) ...[
-                const SizedBox(height: 4),
-                Text('Saída: ${formatoData.format(pessoa.dataSaida!)}'),
-              ],
-
-              const SizedBox(height: 8),
-
-              Text(
-                pessoa.estaNoAmbiente
-                    ? 'Situação: No ambiente'
-                    : 'Situação: Saiu',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: pessoa.estaNoAmbiente ? Colors.green : Colors.grey,
-                ),
-              ),
             ],
-          ),
+          ],
         ),
       ),
     );

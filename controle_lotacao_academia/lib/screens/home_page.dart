@@ -112,48 +112,90 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final double percentual = pessoasNoAmbiente / capacidadeMaxima;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Gym Capacity 2.0'), centerTitle: true),
+      backgroundColor: const Color(0xFF0D0D0D),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF0D0D0D),
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'Gym Capacity 2.0',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
           child: Column(
             children: [
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(22),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF1E1E1E),
-                  borderRadius: BorderRadius.circular(16),
+                  color: const Color(0xFF1A1A1A),
+                  borderRadius: BorderRadius.circular(22),
+                  border: Border.all(color: const Color(0xFF2B2B2B)),
                 ),
                 child: Column(
                   children: [
-                    const Icon(Icons.fitness_center, size: 40),
-                    const SizedBox(height: 8),
+                    Container(
+                      width: 58,
+                      height: 58,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE53935).withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: const Icon(
+                        Icons.fitness_center,
+                        size: 30,
+                        color: Color(0xFFE53935),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
                     const Text(
                       'Pessoas na academia',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16, color: Color(0xFFBDBDBD)),
                     ),
                     const SizedBox(height: 6),
                     Text(
                       '$pessoasNoAmbiente / $capacidadeMaxima',
                       style: const TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 36,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: LinearProgressIndicator(
+                        value: percentual,
+                        minHeight: 8,
+                        backgroundColor: const Color(0xFF2C2C2C),
+                        valueColor: const AlwaysStoppedAnimation(
+                          Color(0xFFE53935),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 22),
 
               TextField(
                 controller: nomeController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Nome',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person),
+                  hintText: 'Digite o nome da pessoa',
+                  prefixIcon: const Icon(Icons.person_outline),
+                  filled: true,
+                  fillColor: const Color(0xFF171717),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
 
@@ -161,39 +203,95 @@ class _HomePageState extends State<HomePage> {
 
               TextField(
                 controller: identificacaoController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Matrícula / ID',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.badge),
+                  hintText: 'Digite a identificação',
+                  prefixIcon: const Icon(Icons.badge_outlined),
+                  filled: true,
+                  fillColor: const Color(0xFF171717),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
 
-              const SizedBox(height: 12),
+              const SizedBox(height: 14),
 
               SizedBox(
                 width: double.infinity,
+                height: 50,
                 child: ElevatedButton.icon(
                   onPressed: cadastrarPessoa,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFE53935),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
                   icon: const Icon(Icons.login),
-                  label: const Text('Registrar entrada'),
+                  label: const Text(
+                    'Registrar entrada',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
 
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Pessoas cadastradas',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
+              Row(
+                children: [
+                  const Expanded(
+                    child: Text(
+                      'Pessoas cadastradas',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1D1D1D),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      '${pessoas.length} registros',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFFBDBDBD),
+                      ),
+                    ),
+                  ),
+                ],
               ),
 
               const SizedBox(height: 12),
 
               Expanded(
                 child: pessoas.isEmpty
-                    ? const Center(child: Text('Nenhuma pessoa cadastrada.'))
+                    ? const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.people_outline,
+                              size: 48,
+                              color: Color(0xFF666666),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Nenhuma pessoa cadastrada.',
+                              style: TextStyle(color: Color(0xFF9E9E9E)),
+                            ),
+                          ],
+                        ),
+                      )
                     : ListView.builder(
                         itemCount: pessoas.length,
                         itemBuilder: (context, index) {
